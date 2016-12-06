@@ -2,12 +2,11 @@ package wsd.com.wsd.interaces;
 
 import java.util.ArrayList;
 
-/**
- * Created by tobia on 06.12.2016.
- */
+import wsd.com.wsd.models.UserDevice;
+
 
 public interface AppAgentCommunicationAgentCommunication {
-    void send(String message);
+    void send(String deviceName, String message);
     String receiveMessage();
-    boolean connect(ArrayList<Object> devices);
+    boolean connect(ArrayList<UserDevice> devices);
 }

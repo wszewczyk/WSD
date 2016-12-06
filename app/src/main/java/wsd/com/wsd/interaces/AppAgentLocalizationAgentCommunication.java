@@ -1,9 +1,8 @@
 package wsd.com.wsd.interaces;
 
-/**
- * Created by tobia on 06.12.2016.
- */
+import wsd.com.wsd.models.Event;
+
 
 public interface AppAgentLocalizationAgentCommunication {
-    boolean check(Object event); //TODO zmienic klase obiektu na Event po ustaleniu struktury klasy
+    boolean check(Event event); //TODO ustalic strukturę klasy Event
 }

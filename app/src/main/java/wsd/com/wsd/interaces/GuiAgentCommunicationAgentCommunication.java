@@ -1,12 +1,12 @@
 package wsd.com.wsd.interaces;
 
 import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by tobia on 06.12.2016.
- */
+import wsd.com.wsd.models.UserDevice;
+
 
 public interface GuiAgentCommunicationAgentCommunication {
-    void searchForBTDevices();
-    ArrayList<Object> receiveListOfDevices(); //TODO: zmienic typ obiektow po ustaleniu struktury klasy
+    List<UserDevice> searchForBTDevices();
+//    ArrayList<Object> receiveListOfDevices(); //TODO: zmienic typ obiektow po ustaleniu struktury klasy
 }
