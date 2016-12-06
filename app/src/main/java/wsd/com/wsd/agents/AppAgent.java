@@ -1,5 +1,12 @@
 package wsd.com.wsd.agents;
 
 
-public class AppAgent {
+import java.util.Date;
+import java.util.List;
+
+import wsd.com.wsd.interaces.GuiAgentAppAgentCommunication;
+import wsd.com.wsd.models.UserDevice;
+
+public class AppAgent{
+
 }
