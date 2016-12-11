@@ -7,12 +7,12 @@ import jade.lang.acl.ACLMessage;
 
 public class CommunicatParser {
     private static Gson gson = new Gson();
-    public static ACLMessage convertStringToACLMessage(String message){
-        ACLMessage aclMessage = gson.fromJson(message, ACLMessage.class);
-        return aclMessage;
+    public static AgentMessage convertStringToACLMessage(String message){
+        AgentMessage agentMessage = gson.fromJson(message, AgentMessage.class);
+        return agentMessage;
     }
 
-    public static String convertACLMessagoToJSON(ACLMessage aclMessage){
-        return gson.toJson(aclMessage);
+    public static String convertACLMessagoToJSON(AgentMessage agentMessage){
+        return gson.toJson(agentMessage);
     }
 }

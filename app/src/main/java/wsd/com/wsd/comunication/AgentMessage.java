@@ -15,6 +15,7 @@ import wsd.com.wsd.comunication.utils.UserProperties;
 @Data
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 public class AgentMessage {
     private Performative performative;
