@@ -13,8 +13,47 @@
     tools:context="wsd.com.wsd.acivities.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Turn On"
+        android:id="@+id/button"
+        android:clickable="true"
+        android:onClick="on" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get visible"
+        android:onClick="visible"
+        android:id="@+id/button2"
+        android:layout_alignBottom="@+id/button"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="List devices"
+        android:onClick="list"
+        android:id="@+id/button3"
+        android:layout_toRightOf="@+id/button2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="turn off"
+        android:onClick="off"
+        android:id="@+id/button4"
+        android:layout_below="@+id/button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_below="@+id/button4" />
 </RelativeLayout>
