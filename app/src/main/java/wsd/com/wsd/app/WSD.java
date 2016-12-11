@@ -3,11 +3,13 @@ package wsd.com.wsd.app;
 import android.app.Application;
 import android.content.res.Configuration;
 
+import com.orm.SugarApp;
+
 /**
  * Created by wmsze on 11.12.2016.
  */
 
-public class WSD extends Application {
+public class WSD extends SugarApp {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

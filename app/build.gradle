@@ -33,6 +33,7 @@ dependencies {
     compile group: 'org.mockito', name: 'mockito-all', version: '1.8.4'
     provided 'org.projectlombok:lombok:1.16.2'
     compile 'com.wdullaer:materialdatetimepicker:3.0.0'
+    compile 'com.github.satyan:sugar:1.4'
 
     testCompile 'junit:junit:4.12'
 }
