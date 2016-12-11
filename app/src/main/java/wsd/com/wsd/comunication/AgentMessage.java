@@ -28,6 +28,19 @@ public class AgentMessage {
     private String content;
     private UserProperties userProperties = new UserProperties();
 
+    public AgentMessage(Performative performative, String senderId, String reciverId,
+                        String language, String ontology, String protocol,
+                        String conversationId, String content) {
+        this.performative = performative;
+        this.senderId = senderId;
+        this.reciverId = reciverId;
+        this.language = language;
+        this.ontology = ontology;
+        this.protocol = protocol;
+        this.conversationId = conversationId;
+        this.content = content;
+    }
+
     public AgentMessage getReplayMessage(Performative performative){
         return AgentMessage.builder()
                 .performative(performative)
