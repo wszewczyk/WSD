@@ -16,6 +16,7 @@ public class TimeSlot {
     private Interwal end;
 
     public TimeSlot(Interwal begin, Interwal end) {
+        assert begin.getInterval()<end.getInterval();
         this.begin = begin;
         this.end = end;
     }

@@ -2,7 +2,9 @@ package wsd.com.wsd.singletons;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import lombok.Getter;
@@ -21,12 +23,5 @@ public class EventSourceSingleton {
     }
 
     private EventSourceSingleton() {
-        addSomeEvents();
-    }
-
-    private void addSomeEvents(){
-        events.add(new Event("event 1", "desc 1", new Date(), new TimeSlot(Interwal._8, Interwal._10), new Localization(52.10, 21)));
-        events.add(new Event("event 1", "desc 1", new Date(), new TimeSlot(Interwal._10, Interwal._12), new Localization(52.10, 21)));
-        events.add(new Event("event 1", "desc 1", new Date(), new TimeSlot(Interwal._12, Interwal._18), new Localization(52.10, 21)));
     }
 }
