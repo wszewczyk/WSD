@@ -10,7 +10,7 @@ import java.util.Date;
 import static org.junit.Assert.assertEquals;
 
 public class DateComparatorTest {
-    private EventComparator eventComparator = new EventComparator();
+    private DateComperator dateComperator = new DateComperator();
     private SimpleDateFormat dateFormat = new SimpleDateFormat ("dd-MM-yyyy");
 
     @Test
@@ -18,7 +18,7 @@ public class DateComparatorTest {
         Date date = new Date();
         Thread.sleep(1000);
         Date date1 = new Date();
-        int res = eventComparator.compareDate(date, date1);
+        int res = dateComperator.compare(date, date1);
         assertEquals(0, res);
     }
 
@@ -30,7 +30,7 @@ public class DateComparatorTest {
         Date date = dateFormat.parse(string1);
         Date date1 = dateFormat.parse(string2);
 
-        int res = eventComparator.compareDate(date, date1);
+        int res = dateComperator.compare(date, date1);
         assertEquals(-1, res);
     }
 
@@ -42,7 +42,7 @@ public class DateComparatorTest {
         Date date = dateFormat.parse(string1);
         Date date1 = dateFormat.parse(string2);
 
-        int res = eventComparator.compareDate(date, date1);
+        int res = dateComperator.compare(date, date1);
         assertEquals(1, res);
     }
 

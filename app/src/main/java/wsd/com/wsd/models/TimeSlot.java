@@ -5,9 +5,11 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import wsd.com.wsd.models.types.Interwal;
 
 @EqualsAndHashCode
+@ToString
 public class TimeSlot {
 
     @Getter
