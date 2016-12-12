@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">WSD</string>
     <string name="action_settings">Settings</string>
+    <string-array name="navigation_drawer_items_array">
+        <item>Connect</item>
+        <item>Connect</item>
+        <item>Connect</item>
+    </string-array>
 </resources>
