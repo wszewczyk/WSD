@@ -23,9 +23,9 @@ public class FreeEventProposalServiceTest {
     @Test
     public void genFreeEnetsInDayTest(){
         Set<Event> events = proposalService.generateFreeEventsInDay(new Date(),2);
-        for (Event e: events){
-            System.out.println(e);
-        }
+//        for (Event e: events){
+//            System.out.println(e);
+//        }
 
         assertEquals(6, events.size());
     }
@@ -34,9 +34,9 @@ public class FreeEventProposalServiceTest {
     public void generateEventInDays(){
         List<Event> events = proposalService.generateAllFreePeriod(new Date(), dateFromDate(new Date(), 3),2,false);
 
-        for (Event e: events){
-            System.out.println(e);
-        }
+//        for (Event e: events){
+//            System.out.println(e);
+//        }
 
         assertEquals(18, events.size());
     }
@@ -50,9 +50,9 @@ public class FreeEventProposalServiceTest {
 
         List<Event> res = proposalService.explodeEvents(eventsToTest);
 
-        for (Event e: res){
-            System.out.println(e);
-        }
+//        for (Event e: res){
+//            System.out.println(e);
+//        }
 
         assertEquals(4, res.size());
     }
@@ -68,9 +68,9 @@ public class FreeEventProposalServiceTest {
 
         Set<Event> res = proposalService.getFreeEvents(eventsToTest,dateFromDate(today, -1), dateFromDate(today, 1));
 
-        for (Event e: res){
-            System.out.println(e);
-        }
+//        for (Event e: res){
+//            System.out.println(e);
+//        }
         assertEquals(14, res.size());
     }
 
