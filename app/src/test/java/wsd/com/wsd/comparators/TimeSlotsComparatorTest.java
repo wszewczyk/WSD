@@ -47,7 +47,7 @@ public class TimeSlotsComparatorTest {
 
         int res = timeSlotsComparator.compare(t1, t2);
 
-        assertEquals(100, res);
+        assertEquals(0, res);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class TimeSlotsComparatorTest {
 
         int res = timeSlotsComparator.compare(t1, t2);
 
-        assertEquals(100, res);
+        assertEquals(0, res);
 
 
         TimeSlot t3 = new TimeSlot(Interwal._8, Interwal._12);
@@ -65,6 +65,6 @@ public class TimeSlotsComparatorTest {
 
         res = timeSlotsComparator.compare(t1, t2);
 
-        assertEquals(100, res);
+        assertEquals(0, res);
     }
 }

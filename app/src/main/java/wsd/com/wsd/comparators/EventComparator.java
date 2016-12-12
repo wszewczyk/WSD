@@ -11,11 +11,16 @@ import wsd.com.wsd.models.types.Interwal;
 
 public class EventComparator implements Comparator<Event> {
 
+    private TimeSlotsComparator timeSlotsComparator = new TimeSlotsComparator();
 
     @Override
     public int compare(Event event, Event t1) {
         int res = compareDate(event.getDate(), t1.getDate());
-        return res;
+        if(res==0){
+            return timeSlotsComparator.compare(event.getTimeSlot(), t1.getTimeSlot());
+        }else {
+            return res;
+        }
     }
 
     int compareDate(Date a, Date b) {
@@ -35,4 +40,6 @@ public class EventComparator implements Comparator<Event> {
             return yearCompare;
         }
     }
+
+
 }
