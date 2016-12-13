@@ -23,7 +23,6 @@ public class TestEventScenario1 {
     }
 
     public static void testCase1() {
-
         try {
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -54,7 +53,6 @@ public class TestEventScenario1 {
     }
 
     public static void testCase2() {
-
         try {
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -78,7 +76,6 @@ public class TestEventScenario1 {
     }
 
     public static void testCase3() {
-
         try {
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
