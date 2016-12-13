@@ -24,7 +24,6 @@ public class DateDiff {
         Date date5 = getDateByVariables(2012, 2, 2);
         Date date6 = getDateByVariables(2012, 2, 4);
         System.out.println(getDateDiff(date1,date2,TimeUnit.DAYS));
-
     }
 
     // wartość bezwględna różnicy w milisekundach, konwertowana przy wywoływaniu na dni
