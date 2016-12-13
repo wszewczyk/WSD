@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 
+import wsd.com.wsd.acivities.MainActivity;
 import wsd.com.wsd.models.Event;
 import wsd.com.wsd.models.TimeSlot;
 
@@ -31,7 +32,7 @@ public class FreeEventComparator implements Comparator<Event>{
         int compDateRes = Integer.compare(absFirstDate, absSecDate);
 
         if(compDateRes==0){
-            return timeSlotsComparator.compare(event.getTimeSlot(), t1.getTimeSlot());
+            return 0;
         }else {
             return compDateRes;
         }
@@ -39,9 +40,20 @@ public class FreeEventComparator implements Comparator<Event>{
 
 //    TODO zrobić to lepiej -> Najlepiej w Java 8 !!!!!!!!!!!!!!
     int getAbsFromDate(Date firstEventDate, Date secEventDate) {
+//        firstEventDate.getDay()
         long dis = firstEventDate.getTime() - secEventDate.getTime();
         long diffDays = dis / (24 * 60 * 60 * 1000);
         int  daysdiff = (int) diffDays;
-        return Math.abs(daysdiff);
+
+        Calendar cal1 =  Calendar.getInstance();
+        cal1.setTime(firstEventDate);
+        Calendar cal2 =  Calendar.getInstance();
+        cal2.setTime(secEventDate);
+
+        int a = cal1.get(Calendar.DAY_OF_YEAR);
+        int b = cal2.get(Calendar.DAY_OF_YEAR);
+
+
+        return Math.abs(a-b);
     }
 }

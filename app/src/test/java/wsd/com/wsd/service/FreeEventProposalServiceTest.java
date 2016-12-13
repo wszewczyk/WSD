@@ -72,7 +72,7 @@ public class FreeEventProposalServiceTest {
 
 //        for (Event e: res){
 //            System.out.println(e);
-//        }
+//        }k
         assertEquals(14, res.size());
     }
 
