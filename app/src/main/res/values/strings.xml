@@ -8,7 +8,7 @@
     <string name="send">Send</string>
     <string-array name="navigation_drawer_items_array">
         <item>Connect</item>
-        <item>Connect</item>
+        <item>Calendar</item>
         <item>Connect</item>
     </string-array>
 </resources>

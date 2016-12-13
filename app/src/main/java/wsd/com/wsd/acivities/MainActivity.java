@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
         DataModel[] drawerItem = new DataModel[3];
 
         drawerItem[0] = new DataModel(R.drawable.ic_launcher, "Connect");
-        drawerItem[1] = new DataModel(R.drawable.ic_launcher, "Fixtures");
-        drawerItem[2] = new DataModel(R.drawable.ic_launcher, "Table");
+        drawerItem[1] = new DataModel(R.drawable.ic_launcher, "Calendar");
+        drawerItem[2] = new DataModel(R.drawable.ic_launcher, "Connect");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -114,7 +114,9 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new ConnectFragment();
                 break;
             case 1:
-                fragment = new ConnectFragment();
+//                fragment = new ConnectFragment();
+                Intent myIntent = new Intent(MainActivity.this, CalendarActivity.class);
+                MainActivity.this.startActivity(myIntent);
                 break;
             case 2:
                 fragment = new ConnectFragment();
