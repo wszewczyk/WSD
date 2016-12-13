@@ -22,6 +22,6 @@ public class TimeSlotsComparator implements Comparator<TimeSlot> {
         if(slot1Beg>=slotProposalEnd){
             return 1;
         }
-        else return 100;
+        else return 0;
     }
 }

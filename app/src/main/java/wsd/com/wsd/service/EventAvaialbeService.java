@@ -5,19 +5,19 @@ import lombok.Setter;
 import wsd.com.wsd.models.Event;
 import wsd.com.wsd.singletons.EventSourceSingleton;
 
-public class EventAvaialbeClient {
-    private static EventAvaialbeClient ourInstance = new EventAvaialbeClient();
+public class EventAvaialbeService {
+    private static EventAvaialbeService ourInstance = new EventAvaialbeService();
 
     @Setter
     private EventSourceSingleton eventSourceSingleton;
     private EventAvaiableHender eventAvaiableHender;
 
 
-    public static EventAvaialbeClient getInstance() {
+    public static EventAvaialbeService getInstance() {
         return ourInstance;
     }
 
-    private EventAvaialbeClient() {
+    private EventAvaialbeService() {
     }
 
     public boolean isEventAvaiable(Event event){

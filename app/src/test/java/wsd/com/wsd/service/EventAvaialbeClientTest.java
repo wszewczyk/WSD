@@ -1,6 +1,5 @@
 package wsd.com.wsd.service;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +20,7 @@ public class EventAvaialbeClientTest {
 
 
     private EventSourceSingleton eventSourceSingleton;
-    private EventAvaialbeClient eventAvaialbeClient = EventAvaialbeClient.getInstance();
+    private EventAvaialbeService eventAvaialbeClient = EventAvaialbeService.getInstance();
 
     @Before
     public void setUp() throws Exception {
