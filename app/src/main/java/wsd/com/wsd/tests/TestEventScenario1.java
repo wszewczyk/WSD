@@ -1,9 +1,7 @@
 package wsd.com.wsd.tests;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import wsd.com.wsd.models.*;
 import wsd.com.wsd.models.types.*;
@@ -22,79 +20,38 @@ public class TestEventScenario1 {
 
     }
 
+    private static Date getDateByVariables(int y, int m, int d) {
+        GregorianCalendar gc = new GregorianCalendar(y, m, d);
+        return gc.getTime();
+    }
+
     public static void testCase1() {
-        try {
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
-            //testEvent11
-            String testDateString1 = "12/13/2016";
-            Date testDate1 = df.parse(testDateString1);
-            TimeSlot testTimeSlot1 = new TimeSlot(Interwal._8, Interwal._10);
-            Localization testLocalization1 = new Localization(52.232222, 21.008333);
-            Event testEvent11 = new Event("testEvent11", "testEvent11 for testing purposes", testDate1, testTimeSlot1, testLocalization1);
+        Event testEvent11 = new Event("testEvent11", "testEvent11 for testing purposes", getDateByVariables(2016, 12, 15),
+                new TimeSlot(Interwal._8, Interwal._10), new Localization(52.232222, 21.008333));
 
-            //testEvent12
-            String testDateString2 = "12/13/2016";
-            Date testDate2 = df.parse(testDateString2);
-            TimeSlot testTimeSlot2 = new TimeSlot(Interwal._14, Interwal._16);
-            Localization testLocalization2 = new Localization(52.232222, 21.008333);
-            Event testEvent12 = new Event("testEvent12", "testEvent12 for testing purposes", testDate2, testTimeSlot2, testLocalization2);
+        Event testEvent12 = new Event("testEvent12", "testEvent12 for testing purposes", getDateByVariables(2016, 12, 15),
+                new TimeSlot(Interwal._14, Interwal._16), new Localization(52.232222, 21.008333));
 
-            //testEvent13
-            String testDateString3 = "12/13/2016";
-            Date testDate3 = df.parse(testDateString3);
-            TimeSlot testTimeSlot3 = new TimeSlot(Interwal._16, Interwal._18);
-            Localization testLocalization3 = new Localization(52.232222, 21.008333);
-            Event testEvent13 = new Event("testEvent13", "testEvent13 for testing purposes", testDate3, testTimeSlot3, testLocalization3);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Event testEvent13 = new Event("testEvent13", "testEvent13 for testing purposes", getDateByVariables(2016, 12, 15),
+                new TimeSlot(Interwal._16, Interwal._18), new Localization(52.232222, 21.008333));
     }
 
     public static void testCase2() {
-        try {
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
-            //testEvent21
-            String testDateString1 = "12/13/2016";
-            Date testDate1 = df.parse(testDateString1);
-            TimeSlot testTimeSlot1 = new TimeSlot(Interwal._10, Interwal._12);
-            Localization testLocalization1 = new Localization(52.232222, 21.008333);
-            Event testEvent21 = new Event("testEvent21", "testEvent21 for testing purposes", testDate1, testTimeSlot1, testLocalization1);
+        Event testEvent21 = new Event("testEvent21", "testEvent21 for testing purposes", getDateByVariables(2016, 12, 15),
+                new TimeSlot(Interwal._10, Interwal._12), new Localization(52.232222, 21.008333));
 
-            //testEvent22
-            String testDateString2 = "12/13/2016";
-            Date testDate2 = df.parse(testDateString2);
-            TimeSlot testTimeSlot2 = new TimeSlot(Interwal._16, Interwal._18);
-            Localization testLocalization2 = new Localization(52.232222, 21.008333);
-            Event testEvent22 = new Event("testEvent22", "testEvent22 for testing purposes", testDate2, testTimeSlot2, testLocalization2);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Event testEvent22 = new Event("testEvent22", "testEvent22 for testing purposes", getDateByVariables(2016, 12, 15),
+                new TimeSlot(Interwal._16, Interwal._18), new Localization(52.232222, 21.008333));
     }
 
     public static void testCase3() {
-        try {
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
-            //testEvent31
-            String testDateString1 = "12/13/2016";
-            Date testDate1 = df.parse(testDateString1);
-            TimeSlot testTimeSlot1 = new TimeSlot(Interwal._8, Interwal._10);
-            Localization testLocalization1 = new Localization(52.232222, 21.008333);
-            Event testEvent31 = new Event("testEvent31", "testEvent31 for testing purposes", testDate1, testTimeSlot1, testLocalization1);
+        Event testEvent31 = new Event("testEvent31", "testEvent31 for testing purposes", getDateByVariables(2016, 12, 15),
+                new TimeSlot(Interwal._8, Interwal._10), new Localization(52.232222, 21.008333));
 
-            //testEvent32
-            String testDateString2 = "12/13/2016";
-            Date testDate2 = df.parse(testDateString2);
-            TimeSlot testTimeSlot2 = new TimeSlot(Interwal._14, Interwal._16);
-            Localization testLocalization2 = new Localization(52.232222, 21.008333);
-            Event testEvent32 = new Event("testEvent32", "testEvent32 for testing purposes", testDate2, testTimeSlot2, testLocalization2);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Event testEvent32 = new Event("testEvent32", "testEvent32 for testing purposes", getDateByVariables(2016, 12, 15),
+                new TimeSlot(Interwal._14, Interwal._16), new Localization(52.232222, 21.008333));
     }
 }
