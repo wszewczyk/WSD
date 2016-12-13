@@ -6,9 +6,10 @@
     <string name="list_devices">List devices</string>
     <string name="turn_off">turn off</string>
     <string name="send">Send</string>
+    <string name="save">SAVE</string>
     <string-array name="navigation_drawer_items_array">
         <item>Connect</item>
         <item>Calendar</item>
-        <item>Connect</item>
+        <item>Add event to db</item>
     </string-array>
 </resources>
