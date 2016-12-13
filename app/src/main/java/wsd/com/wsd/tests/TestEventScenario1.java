@@ -58,7 +58,7 @@ public class TestEventScenario1 {
 
         Event testEvent32 = new Event("testEvent32", "testEvent32 for testing purposes", getDateByVariables(2016, 12, 15),
                 new TimeSlot(Interwal._14, Interwal._16), new Localization(52.232222, 21.008333));
-        
+
         Event testEvent33 = new Event("testEvent33", "testEvent33 for testing purposes", getDateByVariables(2016, 12, 15),
                 new TimeSlot(Interwal._18, Interwal._20), new Localization(52.232222, 21.008333));
     }
