@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
 
 import wsd.com.wsd.models.Event;
 import wsd.com.wsd.models.Localization;
@@ -28,7 +29,7 @@ public class FreeEventComparatorTest {
         int DIF = 2;
 
 
-        int days = freeEventComparator.getAbsFromDate(new Date(), dateFromDate(new Date(), DIF));
+        long days = FreeEventComparator.getDateDiff(new Date(), dateFromDate(new Date(), DIF), TimeUnit.DAYS);
 
         assertEquals(Math.abs(DIF), days);
     }

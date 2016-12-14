@@ -100,6 +100,8 @@ public class FreeEventProposalServiceTest {
 
 
     private Date dateFromDate(Date date, int numberOfDays){
+
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, numberOfDays);
