@@ -10,5 +10,6 @@ import lombok.EqualsAndHashCode;
 @AllArgsConstructor
 public class UserDevice {
     private String name;
+    private int deviceId;
     private String deviceName;
 }
