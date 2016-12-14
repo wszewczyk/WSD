@@ -30,6 +30,14 @@ public class Event extends RealmObject {
     @Ignore
     private int sessionId;
 
+    public Event(String name, String description, Date date, TimeSlot timeSlot, Localization localization) {
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.timeSlot = timeSlot;
+        this.localization = localization;
+    }
+
     public int getSessionId() {
         return sessionId;
     }
