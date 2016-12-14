@@ -2,6 +2,8 @@ package wsd.com.wsd.comunication.handlers;
 
 
 import wsd.com.wsd.comunication.AgentMessage;
+import wsd.com.wsd.comunication.utils.JobType;
+import wsd.com.wsd.singletons.MessagesMemory;
 
 public class OnMessageHendlerImpl implements OnMessageHendler{
 
@@ -9,8 +11,13 @@ public class OnMessageHendlerImpl implements OnMessageHendler{
     private OnHandshakingEventTermHandler onHandshakingEventTermHandler = new OnHandshakingEventTermHandler();
     private ConfirmEventHandler confirmEventHandler = new ConfirmEventHandler();
 
+    MessagesMemory messagesMemory = MessagesMemory.getInstance();
+
     @Override
     public void handle(AgentMessage agentMessage) {
+
+
+
         switch (agentMessage.getJobType()){
             case NETWORK_PROPAGATION:
                 onNetworkCreationHendler.handle(agentMessage);
@@ -20,7 +27,10 @@ public class OnMessageHendlerImpl implements OnMessageHendler{
                 break;
             case CONFIRM_EVENT:
                 confirmEventHandler.handle(agentMessage);
+                break;
         }
+
+        messagesMemory.addMessage(agentMessage);
     }
 
 

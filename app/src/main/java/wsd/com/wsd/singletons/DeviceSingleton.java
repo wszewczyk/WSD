@@ -11,9 +11,11 @@ import java.util.TreeSet;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.java.Log;
 import wsd.com.wsd.comparators.UserDeviceComparator;
 import wsd.com.wsd.models.UserDevice;
 
+@Log
 public class DeviceSingleton {
     private static DeviceSingleton ourInstance = new DeviceSingleton();
 
@@ -37,6 +39,9 @@ public class DeviceSingleton {
     }
 
     public void updateInfo(Collection<UserDevice> userDevicesNetwork, UserDevice selfUserDevice){
+
+        log.info(String.format("user device info: %s network info%s", selfUserDevice.toString(), userDevicesNetwork.toString()));
+
         this.selfUserDevice = selfUserDevice;
         this.devicesInNetwork.addAll(userDevicesNetwork);
 
@@ -66,12 +71,4 @@ public class DeviceSingleton {
         }
     }
 
-
-    public UserDevice getNextDevice(){
-        if(selfUserDevice!=null && !devicesInNetwork.isEmpty()){
-            return null;
-        }else {
-            throw new IllegalStateException("No selfDeviceId or no devices in Network");
-        }
-    }
 }
