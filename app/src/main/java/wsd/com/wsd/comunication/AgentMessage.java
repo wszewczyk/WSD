@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import wsd.com.wsd.comunication.utils.JobType;
 import wsd.com.wsd.comunication.utils.Performative;
 import wsd.com.wsd.comunication.utils.UserProperties;
 
@@ -23,6 +24,7 @@ public class AgentMessage {
     private String reciverId;
     private String language;
     private String ontology;
+    private JobType jobType;
     private String protocol;
     private String conversationId;
     private String content;

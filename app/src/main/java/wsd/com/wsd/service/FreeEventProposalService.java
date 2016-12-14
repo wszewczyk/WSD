@@ -149,7 +149,7 @@ public class FreeEventProposalService {
                 for (int i = 0; i < dif / 2; i++) {
                     TimeSlot timeSlot = new TimeSlot(cur, Interwal.getNextInterval(cur, 2));
                     cur = timeSlot.getEnd();
-                    res.add(new Event(e.getId(), e.getName(), e.getDescription(), e.getDate(), timeSlot, e.getLocalization()));
+                    res.add(new Event( e.getName(), e.getDescription(), e.getDate(), timeSlot, e.getLocalization()));
                 }
             } else {
                 res.add(e);
