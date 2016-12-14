@@ -47,6 +47,7 @@ public class DeviceSingleton {
         for(Iterator<UserDevice> iterator = userDevicesNetwork.iterator(); iterator.hasNext();){
             UserDevice curentDevice = iterator.next();
 
+//            set coordinator
             if(lastDeviceId==-1){
                 cordinatorDevice = curentDevice;
             }
