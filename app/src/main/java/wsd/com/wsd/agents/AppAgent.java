@@ -1,12 +1,20 @@
 package wsd.com.wsd.agents;
 
 
-import java.util.Date;
-import java.util.List;
+import lombok.extern.java.Log;
 
-import wsd.com.wsd.interaces.GuiAgentAppAgentCommunication;
-import wsd.com.wsd.models.UserDevice;
+@Log
+public class AppAgent {
+    private static AppAgent ourInstance = new AppAgent();
 
-public class AppAgent{
+    public static AppAgent getInstance() {
+        return ourInstance;
+    }
 
+    private AppAgent() {
+    }
+
+    public void sendNextPropolas(){
+        log.info("sending new event proposal");
+    }
 }

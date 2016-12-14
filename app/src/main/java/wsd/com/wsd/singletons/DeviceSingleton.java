@@ -19,6 +19,7 @@ import wsd.com.wsd.models.UserDevice;
 public class DeviceSingleton {
     private static DeviceSingleton ourInstance = new DeviceSingleton();
 
+    @Getter
     private UserDevice selfUserDevice;
     @Getter
     private boolean isCoordinator;

@@ -3,6 +3,7 @@ package wsd.com.wsd.comunication.handlers;
 
 import wsd.com.wsd.agents.BrokerAgent;
 import wsd.com.wsd.comunication.AgentMessage;
+import wsd.com.wsd.comunication.utils.Performative;
 import wsd.com.wsd.dto.DtoConverter;
 import wsd.com.wsd.models.Event;
 import wsd.com.wsd.singletons.MessagesMemory;
@@ -16,6 +17,8 @@ public class OnConfirmEventHandler implements OnMessageHendler{
     public void handle(AgentMessage agentMessage) {
         AgentMessage lastMessage = messagesMemory.getLastMessage();
         assert lastMessage!=null;
+        assert agentMessage.getPerformative()== Performative.CONFIRM;
+
 
         int currConversationId = agentMessage.getConversationId();
         int lastConversationId = lastMessage.getConversationId();

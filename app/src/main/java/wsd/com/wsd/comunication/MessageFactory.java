@@ -46,7 +46,7 @@ public class MessageFactory {
                 .build();
     }
 
-    public static AgentMessage onConfirmMessage(AgentMessage agentMessage, int reciver, int sender){
+    public static AgentMessage onConfirmToNextDeviceMessage(AgentMessage agentMessage, int reciver, int sender){
         return AgentMessage.builder()
                 .conversationId(agentMessage.getConversationId())
                 .protocol(Utils.PROTOCOL_NAME)
@@ -72,7 +72,7 @@ public class MessageFactory {
                 .build();
     }
 
-    public static AgentMessage eventConfirmMessage(Event event, int reviver, int conversationId){
+    public static AgentMessage eventConfirmMessageAndStop(Event event, int reviver, int conversationId){
         return AgentMessage.builder()
                 .conversationId(conversationId)
                 .protocol(Utils.PROTOCOL_NAME)
@@ -85,4 +85,17 @@ public class MessageFactory {
                 .build();
     }
 
+
+    public static AgentMessage lastAgentConfirmToCoordinatorMessage(AgentMessage message, int sender) {
+        return AgentMessage.builder()
+                .conversationId(message.getConversationId())
+                .protocol(Utils.PROTOCOL_NAME)
+                .ontology(Utils.ONTOLOGY_NAME)
+                .jobType(JobType.HANDSHAKING_EVENT_TERM)
+                .performative(Performative.ACCEPT_PROPOSAL)
+                .senderId(sender)
+                .reciverId(CORDINATOR_ID)
+                .content(message.getContent())
+                .build();
+    }
 }
