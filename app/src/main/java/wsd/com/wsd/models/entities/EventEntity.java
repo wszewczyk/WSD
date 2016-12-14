@@ -7,11 +7,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+
+@Builder
 @Data
 @EqualsAndHashCode
-@NoArgsConstructor
-@Builder
+@ToString
 public class EventEntity {
     private String name;
     private String description;
@@ -20,4 +22,16 @@ public class EventEntity {
     private String timeSlotEnd;
     private double localizationLatitude;
     private double localizationLongitude;
+
+    public EventEntity(){}
+
+    public EventEntity(String name, String description, Date date, String timeSlotBeg, String timeSlotEnd, double localizationLatitude, double localizationLongitude) {
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.timeSlotBeg = timeSlotBeg;
+        this.timeSlotEnd = timeSlotEnd;
+        this.localizationLatitude = localizationLatitude;
+        this.localizationLongitude = localizationLongitude;
+    }
 }
