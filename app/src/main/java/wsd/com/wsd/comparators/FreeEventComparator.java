@@ -6,6 +6,8 @@ import android.icu.util.DateInterval;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 import wsd.com.wsd.acivities.MainActivity;
 import wsd.com.wsd.models.Event;
@@ -26,34 +28,30 @@ public class FreeEventComparator implements Comparator<Event>{
     public int compare(Event event, Event t1) {
         Date firstEventDate = event.getDate();
         Date secoundEventDate = t1.getDate();
-        int absFirstDate = getAbsFromDate(firstEventDate, this.proposalDate);
-        int absSecDate = getAbsFromDate(secoundEventDate, this.proposalDate);
+        long absFirstDate = getDateDiff(firstEventDate, this.proposalDate, TimeUnit.DAYS);
+        long absSecDate = getDateDiff(secoundEventDate, this.proposalDate, TimeUnit.DAYS);
 
-        int compDateRes = Integer.compare(absFirstDate, absSecDate);
+        int res =  Long.compare(absFirstDate, absSecDate);
 
-        if(compDateRes==0){
-            return 0;
+
+//        return res;
+        if(res==0){
+            return timeSlotsComparator.compare(event.getTimeSlot(), t1.getTimeSlot());
+//            return -1;
         }else {
-            return compDateRes;
+            return 1;
         }
     }
-
-//    TODO zrobić to lepiej -> Najlepiej w Java 8 !!!!!!!!!!!!!!
-    int getAbsFromDate(Date firstEventDate, Date secEventDate) {
-//        firstEventDate.getDay()
-        long dis = firstEventDate.getTime() - secEventDate.getTime();
-        long diffDays = dis / (24 * 60 * 60 * 1000);
-        int  daysdiff = (int) diffDays;
-
-        Calendar cal1 =  Calendar.getInstance();
-        cal1.setTime(firstEventDate);
-        Calendar cal2 =  Calendar.getInstance();
-        cal2.setTime(secEventDate);
-
-        int a = cal1.get(Calendar.DAY_OF_YEAR);
-        int b = cal2.get(Calendar.DAY_OF_YEAR);
-
-
-        return Math.abs(a-b);
+    static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+//        long diffInMillies = Math.abs(date2.getTime() - date1.getTime());
+        long diffInMillies = date2.getTime() - date1.getTime();
+//        long dif = timeUnit.toDays(diffInMillies);
+        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
     }
+
+//    // do wygodnego tworzenia dat typu Date
+//    public static Date getDateByVariables(int y, int m, int d) {
+//        GregorianCalendar gc = new GregorianCalendar(y, m, d);
+//        return gc.getTime();
+//    }
 }
