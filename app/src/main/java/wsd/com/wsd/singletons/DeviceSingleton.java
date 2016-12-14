@@ -30,6 +30,9 @@ public class DeviceSingleton {
     @Getter
     private UserDevice cordinatorDevice;
 
+    @Getter
+    private UserDevice lastDevice;
+
     public Set<UserDevice> devicesInNetwork = new TreeSet<>(new UserDeviceComparator());
 
     public static DeviceSingleton getInstance() {
@@ -62,6 +65,7 @@ public class DeviceSingleton {
                 nextDevice = curentDevice;
             }
             lastDeviceId = curentDevice.getDeviceId();
+            lastDevice = curentDevice;
         }
 
         if(selfUserDevice.getDeviceId()==1){

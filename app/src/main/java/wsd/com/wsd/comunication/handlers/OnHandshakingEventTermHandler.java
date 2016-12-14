@@ -32,6 +32,15 @@ public class OnHandshakingEventTermHandler implements OnMessageHendler {
         if(performative==Performative.REJECT_PROPOSAL && deviceSingleton.isCoordinator()){
             rejectAndSendNewProposalAsCordinator(agentMessage);
         }
+        if(performative==Performative.ACCEPT_PROPOSAL && agentMessage.getSenderId() == deviceSingleton.getLastDevice().getDeviceId()){
+            acceptNegotiation(agentMessage);
+        }
+    }
+
+    private void acceptNegotiation(AgentMessage agentMessage) {
+//        @TODO sprawdzic czy propozcyja jest ta ostatnią
+        Event event = DtoConverter.toEvent(agentMessage.getContent());
+        appAgent.acceptEventTerm(event);
     }
 
     private void rejectAndSendNewProposalAsCordinator(AgentMessage agentMessage) {
