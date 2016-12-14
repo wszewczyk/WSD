@@ -19,6 +19,7 @@ import wsd.com.wsd.models.UserDevice;
 public class DeviceSingleton {
     private static DeviceSingleton ourInstance = new DeviceSingleton();
 
+    @Getter
     private UserDevice selfUserDevice;
     @Getter
     private boolean isCoordinator;
@@ -28,6 +29,9 @@ public class DeviceSingleton {
     private UserDevice nextDevice;
     @Getter
     private UserDevice cordinatorDevice;
+
+    @Getter
+    private UserDevice lastDevice;
 
     public Set<UserDevice> devicesInNetwork = new TreeSet<>(new UserDeviceComparator());
 
@@ -61,6 +65,7 @@ public class DeviceSingleton {
                 nextDevice = curentDevice;
             }
             lastDeviceId = curentDevice.getDeviceId();
+            lastDevice = curentDevice;
         }
 
         if(selfUserDevice.getDeviceId()==1){

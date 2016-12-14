@@ -20,19 +20,19 @@ import wsd.com.wsd.comunication.utils.UserProperties;
 @EqualsAndHashCode
 public class AgentMessage {
     private Performative performative;
-    private String senderId;
-    private String reciverId;
+    private int senderId;
+    private int reciverId;
     private String language;
     private String ontology;
     private JobType jobType;
     private String protocol;
-    private String conversationId;
+    private int conversationId;
     private String content;
     private UserProperties userProperties = new UserProperties();
 
-    public AgentMessage(Performative performative, String senderId, String reciverId,
+    public AgentMessage(Performative performative, int senderId, int reciverId,
                         String language, String ontology, String protocol,
-                        String conversationId, String content) {
+                        int conversationId, String content) {
         this.performative = performative;
         this.senderId = senderId;
         this.reciverId = reciverId;

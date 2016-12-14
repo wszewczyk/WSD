@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -36,8 +37,8 @@ public class FreeEventComparatorTest {
 
     @Test
     public void someFreeEventComperatorTest(){
-        Set<Event> testSet = new TreeSet<>(freeEventComparator);
-        testSet.addAll(mockEvenst());
+        List<Event> testSet = mockEvenst();
+        Collections.sort(testSet,new FreeEventComparator(new Date()));
 
         for(Event e: testSet){
             System.out.println(e);

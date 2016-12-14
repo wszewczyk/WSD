@@ -13,10 +13,10 @@ public class AgentMessageTest {
 
     private static final String USER_PROP_KEY_1 = "User Prp KEY 1";
     private static final String USER_PROP_VAL_1 = "User Prp VAL 1";
-    private static final String SENDER = "SENDER";
-    private static final String RECIVER = "RECIVER";
+    private static final int SENDER = 1;
+    private static final int RECIVER = 2;
     private static final String CONTENT = "CONTENT";
-    private static final String CONVERSATION_ID = "CONVERSATION_ID_1";
+    private static final int CONVERSATION_ID = 123;
     private static final Performative PERFORMATIVE_SEND = Performative.PROPOSE;
     private static final Performative PERFORMATIVE_REVICE = Performative.AGREEE;
 

@@ -2,14 +2,13 @@ package wsd.com.wsd.comunication.handlers;
 
 
 import wsd.com.wsd.comunication.AgentMessage;
-import wsd.com.wsd.comunication.utils.JobType;
 import wsd.com.wsd.singletons.MessagesMemory;
 
 public class OnMessageHendlerImpl implements OnMessageHendler{
 
     private OnNetworkCreationHendler onNetworkCreationHendler =  new OnNetworkCreationHendler();
     private OnHandshakingEventTermHandler onHandshakingEventTermHandler = new OnHandshakingEventTermHandler();
-    private ConfirmEventHandler confirmEventHandler = new ConfirmEventHandler();
+    private OnConfirmEventHandler confirmEventHandler = new OnConfirmEventHandler();
 
     MessagesMemory messagesMemory = MessagesMemory.getInstance();
 
