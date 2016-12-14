@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import wsd.com.wsd.R;
 import wsd.com.wsd.adapters.CustomAdapter;
 import wsd.com.wsd.models.Event;
@@ -41,9 +43,9 @@ public class DbEventsFragment extends Fragment {
     ListView lv;
     Model[] blootoothItems;
     TextView dateText;
-    EditText title,slot;
+    EditText title, slot;
     Date date;
-
+    private Realm mRealm;
     public DbEventsFragment() {
     }
 
@@ -51,7 +53,8 @@ public class DbEventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_db_event, container, false);
-
+        Realm.init(getActivity().getApplicationContext());
+        mRealm = Realm.getDefaultInstance();
         b1 = (Button) rootView.findViewById(R.id.button);
         b2 = (Button) rootView.findViewById(R.id.button2);
         b3 = (Button) rootView.findViewById(R.id.button3);
@@ -77,7 +80,7 @@ public class DbEventsFragment extends Fragment {
                                     @Override
                                     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
                                         dateText.setText(year + "-" + monthOfYear + "-" + "-" + dayOfMonth);
-                                        date = new Date(year,monthOfYear,dayOfMonth);
+                                        date = new Date(year, monthOfYear, dayOfMonth);
                                     }
                                 },
                                 calendar.get(Calendar.YEAR),
@@ -160,8 +163,22 @@ public class DbEventsFragment extends Fragment {
     }
 
     public void save(View v) {
-        Event event = new Event(title.getText().toString(),"Description",date,null,null);
-        event.save();
+        mRealm.beginTransaction();
+        Event event = mRealm.createObject(Event.class);
+        event.setName(title.getText().toString());
+        event.setDescription("Description");
+        event.setDate(date);
+        mRealm.commitTransaction();
+
+
+        RealmResults<Event> events = mRealm.where(Event.class).findAll();
+        Event ev = events.last();
+//        Event event = new Event(title.getText().toString(),"Description",date,null,null);
     }
 
+    @Override
+    public void onDestroy() {
+        mRealm.close();
+        super.onDestroy();
+    }
 }

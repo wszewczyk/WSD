@@ -1,7 +1,10 @@
 package wsd.com.wsd.models;
 
-import com.orm.SugarRecord;
+
 import java.util.Date;
+
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,12 +18,25 @@ import wsd.com.wsd.comparators.DateComperator;
 @AllArgsConstructor
 @Builder
 @ToString
-public class Event extends SugarRecord {
+public class Event extends RealmObject {
     private String name;
     private String description;
     private Date date;
+    @Ignore
     private TimeSlot timeSlot;
+    @Ignore
     private Localization localization;
+
+    @Ignore
+    private int sessionId;
+
+    public int getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(int sessionId) {
+        this.sessionId = sessionId;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -30,7 +46,7 @@ public class Event extends SugarRecord {
         Event event = (Event) o;
 
         DateComperator dateComperator = new DateComperator();
-        if(dateComperator.compare(this.date, event.getDate())!=0) return false;
+        if (dateComperator.compare(this.date, event.getDate()) != 0) return false;
         return timeSlot != null ? timeSlot.equals(event.timeSlot) : event.timeSlot == null;
 
     }
