@@ -14,7 +14,6 @@ import wsd.com.wsd.comparators.DateComperator;
 
 @Data
 //@EqualsAndHashCode
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
@@ -37,6 +36,8 @@ public class Event extends RealmObject {
         this.timeSlot = timeSlot;
         this.localization = localization;
     }
+
+    public Event(){}
 
     public int getSessionId() {
         return sessionId;
