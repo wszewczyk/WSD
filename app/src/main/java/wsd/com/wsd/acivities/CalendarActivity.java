@@ -20,6 +20,8 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.client.util.DateTime;
 
 import com.google.api.services.calendar.model.*;
+import com.google.api.services.calendar.model.Calendar;
+import com.google.api.services.calendar.model.Event;
 
 import android.Manifest;
 import android.accounts.AccountManager;
@@ -36,6 +38,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,12 +46,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
+import wsd.com.wsd.R;
+import wsd.com.wsd.models.*;
+import wsd.com.wsd.models.types.Interwal;
 
 public class CalendarActivity extends Activity implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
@@ -129,12 +133,19 @@ public class CalendarActivity extends Activity implements EasyPermissions.Permis
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
-        } else if (mCredential.getSelectedAccountName() == null) {
+        }
+        else if (mCredential.getSelectedAccountName() == null)
+        {
             chooseAccount();
-        } else if (! isDeviceOnline()) {
+        }
+        else if (! isDeviceOnline())
+        {
             mOutputText.setText("No network connection available.");
-        } else {
-            new MakeRequestTask(mCredential).execute();
+        }
+        else
+        {
+            //new MakeRequestTask(mCredential).execute();
+            new GetEventsWithinTimespanAsyncTask(mCredential,(new GregorianCalendar(2016,11,10)).getTime(),(new GregorianCalendar(2016,11,31)).getTime()).execute();
         }
     }
 
@@ -317,10 +328,152 @@ public class CalendarActivity extends Activity implements EasyPermissions.Permis
         dialog.show();
     }
 
-    /**
-     * An asynchronous task that handles the Google Calendar API call.
-     * Placing the API calls in their own task ensures the UI stays responsive.
-     */
+    public class GetEventsWithinTimespanAsyncTask extends AsyncTask<Void,Void,List<wsd.com.wsd.models.Event>>
+    {
+        private com.google.api.services.calendar.Calendar mService = null;
+        java.util.Calendar dateFrom = null, dateTo = null;
+        List<wsd.com.wsd.models.Event> returnedList = null;
+
+        public GetEventsWithinTimespanAsyncTask(GoogleAccountCredential credential, Date from, Date to)
+        {
+            dateFrom = new GregorianCalendar();
+            dateTo = new GregorianCalendar();
+            dateFrom.setTime(from);
+            dateTo.setTime(to);
+            dateFrom.set(java.util.Calendar.HOUR_OF_DAY,0); //Bede uwzglednial eventy od polnocy pierwszego dnia do 23:59 dnia ostatniego
+            dateFrom.set(java.util.Calendar.MINUTE,0);
+            dateTo.set(java.util.Calendar.HOUR_OF_DAY,23);
+            dateTo.set(java.util.Calendar.MINUTE,59);
+
+            returnedList = new ArrayList<>();
+
+            HttpTransport transport = AndroidHttp.newCompatibleTransport();
+            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+            mService = new com.google.api.services.calendar.Calendar.Builder(
+                    transport, jsonFactory, credential)
+                    .setApplicationName(getApplicationContext().getResources().getString(R.string.app_name))
+                    .build();
+        }
+
+        @Override
+        protected List<wsd.com.wsd.models.Event> doInBackground(Void... voids)
+        {
+            try
+            {
+                getDataFromApi();
+                return returnedList;
+            }
+            catch (UserRecoverableAuthIOException e1)
+            {
+                startActivityForResult(e1.getIntent(), REQUEST_AUTHORIZATION);
+                cancel(true);
+                return null;
+            }
+            catch (Exception e)
+            {
+                cancel(true);
+                return null;
+            }
+        }
+
+        private void getDataFromApi() throws IOException
+        {
+            DateTime timeFrom = new DateTime(dateFrom.getTime());
+            DateTime timeTo = new DateTime(dateTo.getTime());
+
+            Events events = mService.events().list("primary").setOrderBy("startTime").setTimeMin(timeFrom).setTimeMax(timeTo).setSingleEvents(true).execute();
+            List<Event> listOfEvents = events.getItems();
+
+            if(listOfEvents != null)
+            {
+                for(Event event: listOfEvents)
+                {
+                    java.util.Calendar eventStartTime = new GregorianCalendar();
+                    eventStartTime.setTime(new Date(event.getStart().getDateTime().getValue()));
+                    java.util.Calendar eventEndTime = new GregorianCalendar();
+                    eventEndTime.setTime(new Date(event.getEnd().getDateTime().getValue()));
+
+                    if(eventStartTime.get(java.util.Calendar.DAY_OF_MONTH) == eventEndTime.get(java.util.Calendar.DAY_OF_MONTH))
+                    {
+                        //Spotkanie konczy sie i zaczyna tego samego dnia
+                        //
+                        //Sprawdzam czy poczatek spotkania nie znajduje sie wczesniej niz godzina 8
+                        //Sprawdzam czy koniec spotkania nie znajduje sie pozniej niz godzina 20
+                        Interwal beginInterwal = null;
+                        Interwal endInterwal = null;
+                        if(eventStartTime.get(java.util.Calendar.HOUR_OF_DAY) >= 8)
+                        {
+                            if((eventEndTime.get(java.util.Calendar.HOUR_OF_DAY) <= 20) && (eventStartTime.get(java.util.Calendar.HOUR_OF_DAY) <= 20))
+                            {
+                                //Cale spotkanie miesci sie w przedziale 8-20 (tylko taki nas interesuje)
+                                beginInterwal = Interwal.getPreviousInterwal(eventStartTime.get(java.util.Calendar.HOUR_OF_DAY),eventStartTime.get(java.util.Calendar.MINUTE));
+                                endInterwal = Interwal.getNextInterwal(eventEndTime.get(java.util.Calendar.HOUR_OF_DAY),eventEndTime.get(java.util.Calendar.MINUTE));
+                            }
+                            else if(eventStartTime.get(java.util.Calendar.HOUR_OF_DAY) <= 20)
+                            {
+                                //Obcinam koncowke spotkania do godziny 20
+                                beginInterwal = Interwal.getPreviousInterwal(eventStartTime.get(java.util.Calendar.HOUR_OF_DAY),eventStartTime.get(java.util.Calendar.MINUTE));
+                                endInterwal = Interwal.getNextInterwal(20,0);
+                            }
+                            else
+                            {
+                                beginInterwal = null;
+                                endInterwal = null;
+                            }
+                        }
+                        else
+                        {
+                            if((eventEndTime.get(java.util.Calendar.HOUR_OF_DAY) <= 20) && (eventEndTime.get(java.util.Calendar.HOUR_OF_DAY) >= 8))
+                            {
+                                //Obcinam poczatek spotkania do godziny 8
+                                beginInterwal = Interwal.getPreviousInterwal(8,0);
+                                endInterwal = Interwal.getNextInterwal(eventEndTime.get(java.util.Calendar.HOUR_OF_DAY),eventEndTime.get(java.util.Calendar.MINUTE));
+                            }
+                            else if(eventEndTime.get(java.util.Calendar.HOUR_OF_DAY) >= 8)
+                            {
+                                //Obcinam spotkanie z obu stron
+                                beginInterwal = Interwal.getPreviousInterwal(8,0);
+                                endInterwal = Interwal.getNextInterwal(20,0);
+                            }
+                            else
+                            {
+                                beginInterwal = null;
+                                endInterwal = null;
+                            }
+                        }
+
+                        if((beginInterwal != null) && (endInterwal != null))
+                        {
+                            returnedList.add(new wsd.com.wsd.models.Event(event.getSummary() != null ? event.getSummary() : event.getId(),
+                                    event.getDescription(), eventStartTime.getTime(),
+                                    new TimeSlot(beginInterwal, endInterwal), new Localization(event.getLocation() != null ? event.getLocation() : "noLocalization")));
+                        }
+                    }
+                    else
+                    {
+                        //Poczatek i koniec spotkania w roznych dniach
+                        //
+                        //Zakladamy ze takich spotkan w kalendarzach nie bedzie
+                    }
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<wsd.com.wsd.models.Event> events)
+        {
+            //TODO Stad przechwycic zwrocona liste obiektow klasy Event
+            if(events != null)
+            {
+                for(wsd.com.wsd.models.Event ev: events)
+                {
+
+                }
+            }
+        }
+    }
+
+
     private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
         private com.google.api.services.calendar.Calendar mService = null;
         private Exception mLastError = null;
@@ -334,10 +487,7 @@ public class CalendarActivity extends Activity implements EasyPermissions.Permis
                     .build();
         }
 
-        /**
-         * Background task to call Google Calendar API.
-         * @param params no parameters needed for this task.
-         */
+
         @Override
         protected List<String> doInBackground(Void... params) {
             try {
@@ -349,11 +499,7 @@ public class CalendarActivity extends Activity implements EasyPermissions.Permis
             }
         }
 
-        /**
-         * Fetch a list of the next 10 events from the primary calendar.
-         * @return List of Strings describing returned events.
-         * @throws IOException
-         */
+
         private List<String> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
@@ -387,11 +533,15 @@ public class CalendarActivity extends Activity implements EasyPermissions.Permis
         }
 
         @Override
-        protected void onPostExecute(List<String> output) {
+        protected void onPostExecute(List<String> output)
+        {
             mProgress.hide();
-            if (output == null || output.size() == 0) {
+            if (output == null || output.size() == 0)
+            {
                 mOutputText.setText("No results returned.");
-            } else {
+            }
+            else
+            {
                 output.add(0, "Data retrieved using the Google Calendar API:");
                 mOutputText.setText(TextUtils.join("\n", output));
             }

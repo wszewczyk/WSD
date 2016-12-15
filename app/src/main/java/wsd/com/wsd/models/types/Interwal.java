@@ -2,6 +2,7 @@ package wsd.com.wsd.models.types;
 
 
 import android.support.v4.app.INotificationSideChannel;
+import android.util.Log;
 
 public enum Interwal {
     _8(8), _10(10), _12(12), _14(14), _16(16), _18(18), _20(20);
@@ -22,7 +23,46 @@ public enum Interwal {
         return getByNymber(endInterval);
     }
 
-    private static Interwal getByNymber(int number) {
+    public static Interwal getNextInterwal(int hour, int minutes)
+    {
+        if(minutes == 0)
+        {
+            if((hour % 2) == 0)
+            {
+                return getByNymber(hour);
+            }
+            else
+            {
+                return getByNymber(hour + 1);
+            }
+        }
+        else
+        {
+            if((hour % 2) == 0)
+            {
+                return getByNymber(hour + 2);
+            }
+            else
+            {
+                return getByNymber(hour + 1);
+            }
+        }
+
+    }
+
+    public static Interwal getPreviousInterwal(int hour, int minutes)
+    {
+        if((hour % 2) == 0)
+        {
+            return getByNymber(hour);
+        }
+        else
+        {
+            return getByNymber(hour - 1);
+        }
+    }
+
+    public static Interwal getByNymber(int number) {
         switch (number) {
             case 8:
                 return Interwal._8;
@@ -39,7 +79,7 @@ public enum Interwal {
             case 20:
                 return Interwal._20;
             default:
-                throw new IllegalArgumentException("Interval does not exist!!!");
+                throw new IllegalArgumentException("Interval does not exist!!! Number value: " + number);
         }
     }
 }
