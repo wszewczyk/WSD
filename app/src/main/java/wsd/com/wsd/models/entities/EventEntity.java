@@ -3,10 +3,10 @@ package wsd.com.wsd.models.entities;
 
 import java.util.Date;
 
+import io.realm.RealmObject;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
@@ -14,7 +14,7 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode
 @ToString
-public class EventEntity {
+public class EventEntity extends RealmObject{
     private String name;
     private String description;
     private Date date;

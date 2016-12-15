@@ -1,6 +1,5 @@
 package wsd.com.wsd.models.entities;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
