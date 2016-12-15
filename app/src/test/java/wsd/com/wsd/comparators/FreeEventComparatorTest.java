@@ -22,7 +22,8 @@ import static org.junit.Assert.*;
 
 public class FreeEventComparatorTest {
 
-    private FreeEventComparator freeEventComparator = new FreeEventComparator(new Date());
+    private FreeEventComparator freeEventComparator = new FreeEventComparator(getDateByVariables(2016,12,14));
+
 
     @Test
     public void getAbsFromDateTest(){
@@ -37,8 +38,10 @@ public class FreeEventComparatorTest {
 
     @Test
     public void someFreeEventComperatorTest(){
-        List<Event> testSet = mockEvenst();
-        Collections.sort(testSet,new FreeEventComparator(new Date()));
+        Set<Event> testSet = new TreeSet<>(freeEventComparator);
+        testSet.addAll(mockEvenst());
+
+        System.out.println("ProposalDate: " + freeEventComparator.getProposalDate().toString());
 
         for(Event e: testSet){
             System.out.println(e);
@@ -54,9 +57,9 @@ public class FreeEventComparatorTest {
         return Arrays.asList(
                 new Event("event 5", "enevt desc 5", getDateByVariables(2016, 12, 11), new TimeSlot(Interwal._16, Interwal._18), new Localization(12.23, 13.23)),
                 new Event("event 3", "enevt desc 3", getDateByVariables(2016, 12, 13), new TimeSlot(Interwal._18, Interwal._20), new Localization(12.23, 13.23)),
-                new Event("event 1", "enevt desc 1", getDateByVariables(2016, 12, 13), new TimeSlot(Interwal._8, Interwal._10), new Localization(12.23, 13.23)),
-                new Event("event 2", "enevt desc 2", getDateByVariables(2016, 12, 14), new TimeSlot(Interwal._16, Interwal._18), new Localization(12.23, 13.23)),
-                new Event("event 4", "enevt desc 4", getDateByVariables(2016, 12, 15), new TimeSlot(Interwal._10, Interwal._14), new Localization(12.23, 13.23))
+                new Event("event 1", "enevt desc 1", getDateByVariables(2016, 12, 17), new TimeSlot(Interwal._8, Interwal._10), new Localization(12.23, 13.23)),
+                new Event("event 2", "enevt desc 2", getDateByVariables(2016, 12, 17), new TimeSlot(Interwal._16, Interwal._18), new Localization(12.23, 13.23)),
+                new Event("event 4", "enevt desc 4", getDateByVariables(2016, 12, 17), new TimeSlot(Interwal._10, Interwal._14), new Localization(12.23, 13.23))
         );
     }
 

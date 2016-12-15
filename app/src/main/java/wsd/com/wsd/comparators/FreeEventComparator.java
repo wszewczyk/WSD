@@ -25,33 +25,37 @@ public class FreeEventComparator implements Comparator<Event>{
     }
 
     @Override
-    public int compare(Event event, Event t1) {
+    public int compare(Event event, Event event2)
+    {
         Date firstEventDate = event.getDate();
-        Date secoundEventDate = t1.getDate();
+        Date secoundEventDate = event2.getDate();
         long absFirstDate = getDateDiff(firstEventDate, this.proposalDate, TimeUnit.DAYS);
         long absSecDate = getDateDiff(secoundEventDate, this.proposalDate, TimeUnit.DAYS);
 
-        int res =  Long.compare(absFirstDate, absSecDate);
-
-
-//        return res;
-        if(res==0){
-            return timeSlotsComparator.compare(event.getTimeSlot(), t1.getTimeSlot());
-//            return -1;
-        }else {
+        //int res =  Long.compare(absFirstDate, absSecDate);
+        if((absSecDate - absFirstDate) > 0) //
+        {
+            return -1;
+        }
+        else if((absSecDate - absFirstDate) < 0)
+        {
+            return 1;
+        }
+        else
+        {
             return 1;
         }
     }
-    static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-//        long diffInMillies = Math.abs(date2.getTime() - date1.getTime());
-        long diffInMillies = date2.getTime() - date1.getTime();
-//        long dif = timeUnit.toDays(diffInMillies);
+
+    static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit)
+    {
+        long diffInMillies = Math.abs(date2.getTime() - date1.getTime());
         return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+        //return diffInMillies;
     }
 
-//    // do wygodnego tworzenia dat typu Date
-//    public static Date getDateByVariables(int y, int m, int d) {
-//        GregorianCalendar gc = new GregorianCalendar(y, m, d);
-//        return gc.getTime();
-//    }
+    public Date getProposalDate()
+    {
+        return proposalDate;
+    }
 }
