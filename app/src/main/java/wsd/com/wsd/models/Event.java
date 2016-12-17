@@ -2,8 +2,6 @@ package wsd.com.wsd.models;
 
 
 import java.util.Date;
-
-import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,11 +11,11 @@ import lombok.ToString;
 import wsd.com.wsd.comparators.DateComperator;
 
 @Data
-//@EqualsAndHashCode
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
-public class Event extends RealmObject {
+public class Event {
     private String name;
     private String description;
     private Date date;
@@ -25,27 +23,6 @@ public class Event extends RealmObject {
     private TimeSlot timeSlot;
     @Ignore
     private Localization localization;
-
-    @Ignore
-    private int sessionId;
-
-    public Event(String name, String description, Date date, TimeSlot timeSlot, Localization localization) {
-        this.name = name;
-        this.description = description;
-        this.date = date;
-        this.timeSlot = timeSlot;
-        this.localization = localization;
-    }
-
-    public Event(){}
-
-    public int getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(int sessionId) {
-        this.sessionId = sessionId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -57,7 +34,6 @@ public class Event extends RealmObject {
         DateComperator dateComperator = new DateComperator();
         if (dateComperator.compare(this.date, event.getDate()) != 0) return false;
         return timeSlot != null ? timeSlot.equals(event.timeSlot) : event.timeSlot == null;
-
     }
 
     @Override

@@ -32,6 +32,11 @@ import io.realm.RealmResults;
 import wsd.com.wsd.R;
 import wsd.com.wsd.adapters.CustomAdapter;
 import wsd.com.wsd.models.Event;
+import wsd.com.wsd.models.Localization;
+import wsd.com.wsd.models.TimeSlot;
+import wsd.com.wsd.models.types.Interwal;
+import wsd.com.wsd.repositories.EventEntityRepository;
+import wsd.com.wsd.repositories.EventEntityRepositoryImpl;
 import wsd.com.wsd.view.models.Model;
 
 public class DbEventsFragment extends Fragment {
@@ -45,7 +50,6 @@ public class DbEventsFragment extends Fragment {
     TextView dateText;
     EditText title, slot;
     Date date;
-    private Realm mRealm;
     public DbEventsFragment() {
     }
 
@@ -53,8 +57,7 @@ public class DbEventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_db_event, container, false);
-        Realm.init(getActivity().getApplicationContext());
-        mRealm = Realm.getDefaultInstance();
+
         b1 = (Button) rootView.findViewById(R.id.button);
         b2 = (Button) rootView.findViewById(R.id.button2);
         b3 = (Button) rootView.findViewById(R.id.button3);
@@ -163,22 +166,21 @@ public class DbEventsFragment extends Fragment {
     }
 
     public void save(View v) {
-        mRealm.beginTransaction();
-        Event event = mRealm.createObject(Event.class);
+        Event event = new Event();
         event.setName(title.getText().toString());
         event.setDescription("Description");
         event.setDate(date);
-        mRealm.commitTransaction();
+        event.setLocalization(new Localization(0,0));
+        event.setTimeSlot(new TimeSlot(Interwal._10,Interwal._12));
 
+        EventEntityRepository repository = EventEntityRepositoryImpl.getInstance();
+        repository.save(event);
 
-        RealmResults<Event> events = mRealm.where(Event.class).findAll();
-        Event ev = events.last();
-//        Event event = new Event(title.getText().toString(),"Description",date,null,null);
+        List<Event> events = repository.getAllEvents();
     }
 
     @Override
     public void onDestroy() {
-        mRealm.close();
         super.onDestroy();
     }
 }
