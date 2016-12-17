@@ -17,5 +17,6 @@ public class OnNetworkCreationHendler implements OnMessageHendler {
         String content = agentMessage.getContent();
         NetworkInfoDto networkInfoDto = DtoConverter.toNetworkInfoDto(content);
         deviceSingleton.updateInfo(networkInfoDto.getDevicesNetowrk(), networkInfoDto.getSelfDeviceInfo());
+        throw new IllegalStateException("load Events in EventSourceSingleton by BrokerAgent");
     }
 }

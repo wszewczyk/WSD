@@ -23,8 +23,8 @@ public class BrokerAgent implements AppAgentBrokerAgentCommunication {
     }
 
     @Override
-    public List<Event> getEvents(Date start, Date end) {
-        return new ArrayList<>();
+    public void loadEvents(Date start, Date end) {
+       log.info("add events to EventSourceSingleton");
     }
 
     @Override
