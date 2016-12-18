@@ -57,17 +57,21 @@ import wsd.com.wsd.models.types.Interwal;
 public class CalendarActivity extends Activity implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
-    private Button mCallApiButton;
+    private Button mCallApiButton, addEventButton;
     ProgressDialog mProgress;
+    int mode;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+    static final int MODE_GET_DATA = 1;
+    static final int MODE_PUSH_DATA = 2;
 
     private static final String BUTTON_TEXT = "Call Google Calendar API";
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+    //private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY }; //uprawnienia pozwalajace tylko czytac kalendarz
+    private static final String[] SCOPES = { CalendarScopes.CALENDAR }; //uprawnienia pozwalajace zarowno czytac jak i modyfikowac kalendarz
 
     /**
      * Create the main activity.
@@ -93,13 +97,28 @@ public class CalendarActivity extends Activity implements EasyPermissions.Permis
         mCallApiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mode = MODE_GET_DATA;
                 mCallApiButton.setEnabled(false);
                 mOutputText.setText("");
-                getResultsFromApi();
+                exchangeDataWithApi();
                 mCallApiButton.setEnabled(true);
             }
         });
         activityLayout.addView(mCallApiButton);
+
+        addEventButton = new Button(this);
+        addEventButton.setText("Dodaj event");
+        addEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mode = MODE_PUSH_DATA;
+                addEventButton.setEnabled(false);
+                mOutputText.setText("");
+                exchangeDataWithApi();
+                addEventButton.setEnabled(true);
+            }
+        });
+        activityLayout.addView(addEventButton);
 
         mOutputText = new TextView(this);
         mOutputText.setLayoutParams(tlp);
@@ -130,8 +149,10 @@ public class CalendarActivity extends Activity implements EasyPermissions.Permis
      * of the preconditions are not satisfied, the app will prompt the user as
      * appropriate.
      */
-    private void getResultsFromApi() {
-        if (! isGooglePlayServicesAvailable()) {
+    private void exchangeDataWithApi()
+    {
+        if (! isGooglePlayServicesAvailable())
+        {
             acquireGooglePlayServices();
         }
         else if (mCredential.getSelectedAccountName() == null)
@@ -144,9 +165,23 @@ public class CalendarActivity extends Activity implements EasyPermissions.Permis
         }
         else
         {
-            //new MakeRequestTask(mCredential).execute();
-            new GetEventsWithinTimespanAsyncTask(mCredential,(new GregorianCalendar(2016,11,10)).getTime(),(new GregorianCalendar(2016,11,31)).getTime()).execute();
+            switch (mode)
+            {
+                case MODE_GET_DATA:
+                    new GetEventsWithinTimespanAsyncTask(mCredential,(new GregorianCalendar(2016,11,10)).getTime(),(new GregorianCalendar(2016,11,31)).getTime()).execute();
+                    break;
+                
+                case MODE_PUSH_DATA:
+                    new PushEventToCalendarAsyncTask(mCredential,new wsd.com.wsd.models.Event("Spotkanie sluzbowe","Spotkanie dotyczace przetargu na sprzet",
+                            getDateByVariables(2016,11,23),new TimeSlot(Interwal._12,Interwal._18),new Localization("Warszawa, Polska"))).execute();
+                    break;
+            }
         }
+    }
+
+    private Date getDateByVariables(int y, int m, int d) {
+        GregorianCalendar gc = new GregorianCalendar(y, m, d);
+        return gc.getTime();
     }
 
     /**
@@ -160,21 +195,24 @@ public class CalendarActivity extends Activity implements EasyPermissions.Permis
      * is granted.
      */
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
-    private void chooseAccount() {
-        if (EasyPermissions.hasPermissions(
-                this, Manifest.permission.GET_ACCOUNTS)) {
-            String accountName = getPreferences(Context.MODE_PRIVATE)
-                    .getString(PREF_ACCOUNT_NAME, null);
-            if (accountName != null) {
+    private void chooseAccount()
+    {
+        if (EasyPermissions.hasPermissions(this, Manifest.permission.GET_ACCOUNTS))
+        {
+            String accountName = getPreferences(Context.MODE_PRIVATE).getString(PREF_ACCOUNT_NAME, null);
+            if (accountName != null)
+            {
                 mCredential.setSelectedAccountName(accountName);
-                getResultsFromApi();
-            } else {
-                // Start a dialog from which the user can choose an account
-                startActivityForResult(
-                        mCredential.newChooseAccountIntent(),
-                        REQUEST_ACCOUNT_PICKER);
+                exchangeDataWithApi();
             }
-        } else {
+            else
+            {
+                // Start a dialog from which the user can choose an account
+                startActivityForResult(mCredential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+            }
+        }
+        else
+        {
             // Request the GET_ACCOUNTS permission via a user dialog
             EasyPermissions.requestPermissions(
                     this,
@@ -205,7 +243,7 @@ public class CalendarActivity extends Activity implements EasyPermissions.Permis
                             "This app requires Google Play Services. Please install " +
                                     "Google Play Services on your device and relaunch this app.");
                 } else {
-                    getResultsFromApi();
+                    exchangeDataWithApi();
                 }
                 break;
             case REQUEST_ACCOUNT_PICKER:
@@ -220,13 +258,13 @@ public class CalendarActivity extends Activity implements EasyPermissions.Permis
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
                         mCredential.setSelectedAccountName(accountName);
-                        getResultsFromApi();
+                        exchangeDataWithApi();
                     }
                 }
                 break;
             case REQUEST_AUTHORIZATION:
                 if (resultCode == RESULT_OK) {
-                    getResultsFromApi();
+                    exchangeDataWithApi();
                 }
                 break;
         }
@@ -470,6 +508,104 @@ public class CalendarActivity extends Activity implements EasyPermissions.Permis
 
                 }
             }
+        }
+    }
+
+    public class PushEventToCalendarAsyncTask extends AsyncTask<Void,Void,Void>
+    {
+        private com.google.api.services.calendar.Calendar mService = null;
+        wsd.com.wsd.models.Event event = null;
+
+        public PushEventToCalendarAsyncTask(GoogleAccountCredential credential, wsd.com.wsd.models.Event event)
+        {
+            this.event = event;
+
+            HttpTransport transport = AndroidHttp.newCompatibleTransport();
+            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+            mService = new com.google.api.services.calendar.Calendar.Builder(
+                    transport, jsonFactory, credential)
+                    .setApplicationName(getApplicationContext().getResources().getString(R.string.app_name))
+                    .build();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids)
+        {
+            try
+            {
+                pushDataToApi();
+            }
+            catch (UserRecoverableAuthIOException e1)
+            {
+                startActivityForResult(e1.getIntent(), REQUEST_AUTHORIZATION);
+                cancel(true);
+            }
+            catch (Exception e)
+            {
+                cancel(true);
+            }
+            return null;
+        }
+
+        private void pushDataToApi() throws IOException
+        {
+            mService.events().insert("primary",prepareGoogleEvent()).execute();
+        }
+
+        private Event prepareGoogleEvent()
+        {
+            EventDateTime startTime = prepareStartTime();
+            EventDateTime endTime = prepareEndTime();
+            String localizationString = prepareLocalizationString();
+
+            Event event1 = new Event().setStart(startTime).setEnd(endTime).setSummary(event.getName()).setLocation(localizationString).setDescription(event.getDescription());
+            return event1;
+        }
+
+        private EventDateTime prepareStartTime()
+        {
+            long dateInMilis = event.getDate().getTime();
+            long hourInMilis = (event.getTimeSlot().getBegin().getInterval()) * 3600000;
+            DateTime dateTime = new DateTime(dateInMilis + hourInMilis);
+            return new EventDateTime().setDateTime(dateTime);
+        }
+
+        private EventDateTime prepareEndTime()
+        {
+            long dateInMilis = event.getDate().getTime();
+            long hourInMilis = (event.getTimeSlot().getEnd().getInterval()) * 3600000;
+            DateTime dateTime = new DateTime(dateInMilis + hourInMilis);
+            return new EventDateTime().setDateTime(dateTime);
+        }
+
+        private String prepareLocalizationString()
+        {
+            String retValue = "";
+            boolean goOn = false;
+            if(event.getLocalization().getLocalizationString() != null)
+            {
+                if(!event.getLocalization().getLocalizationString().isEmpty())
+                {
+                    retValue = event.getLocalization().getLocalizationString();
+                }
+                else
+                {
+                    goOn = true;
+                }
+            }
+            else
+            {
+                goOn = true;
+            }
+
+            if(goOn)
+            {
+                //Przeksztalcenie koordynatow zapisanych w obiekcie localization na stringa
+                //Bo stringa przyjmuje Google Calendar
+                retValue = "Latitude: " + String.valueOf(event.getLocalization().getLatitude()) + "; Longitude: " + String.valueOf(event.getLocalization().getLongitude());
+            }
+
+            return retValue;
         }
     }
 
