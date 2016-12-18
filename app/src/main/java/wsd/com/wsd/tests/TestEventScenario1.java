@@ -1,7 +1,9 @@
 package wsd.com.wsd.tests;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import wsd.com.wsd.models.*;
 import wsd.com.wsd.models.types.*;
@@ -30,36 +32,26 @@ public class TestEventScenario1 {
         return gc.getTime();
     }
 
-    private static void testCase1() {
-
-        Event testEvent11 = new Event("testEvent11", "testEvent11 for testing purposes", getDateByVariables(2016, 12, 15),
-                new TimeSlot(Interwal._8, Interwal._10), new Localization(52.232222, 21.008333));
-
-        Event testEvent12 = new Event("testEvent12", "testEvent12 for testing purposes", getDateByVariables(2016, 12, 15),
-                new TimeSlot(Interwal._14, Interwal._16), new Localization(52.232222, 21.008333));
-
-        Event testEvent13 = new Event("testEvent13", "testEvent13 for testing purposes", getDateByVariables(2016, 12, 15),
-                new TimeSlot(Interwal._16, Interwal._18), new Localization(52.232222, 21.008333));
+    private static List<Event> testCase1() {
+        return Arrays.asList(
+                new Event("testEvent11", "testEvent11 for testing purposes", getDateByVariables(2016, 12, 15), new TimeSlot(Interwal._8, Interwal._10), new Localization(52.232222, 21.008333)),
+                new Event("testEvent12", "testEvent12 for testing purposes", getDateByVariables(2016, 12, 15), new TimeSlot(Interwal._14, Interwal._16), new Localization(52.232222, 21.008333)),
+                new Event("testEvent13", "testEvent13 for testing purposes", getDateByVariables(2016, 12, 15), new TimeSlot(Interwal._16, Interwal._18), new Localization(52.232222, 21.008333))
+        );
     }
 
-    private static void testCase2() {
-
-        Event testEvent21 = new Event("testEvent21", "testEvent21 for testing purposes", getDateByVariables(2016, 12, 15),
-                new TimeSlot(Interwal._10, Interwal._12), new Localization(52.232222, 21.008333));
-
-        Event testEvent22 = new Event("testEvent22", "testEvent22 for testing purposes", getDateByVariables(2016, 12, 15),
-                new TimeSlot(Interwal._16, Interwal._18), new Localization(52.232222, 21.008333));
+    private static List<Event> testCase2() {
+        return Arrays.asList(
+                new Event("testEvent21", "testEvent21 for testing purposes", getDateByVariables(2016, 12, 15), new TimeSlot(Interwal._10, Interwal._12), new Localization(52.232222, 21.008333)),
+                new Event("testEvent22", "testEvent22 for testing purposes", getDateByVariables(2016, 12, 15), new TimeSlot(Interwal._16, Interwal._18), new Localization(52.232222, 21.008333))
+        );
     }
 
-    private static void testCase3() {
-
-        Event testEvent31 = new Event("testEvent31", "testEvent31 for testing purposes", getDateByVariables(2016, 12, 15),
-                new TimeSlot(Interwal._8, Interwal._10), new Localization(52.232222, 21.008333));
-
-        Event testEvent32 = new Event("testEvent32", "testEvent32 for testing purposes", getDateByVariables(2016, 12, 15),
-                new TimeSlot(Interwal._14, Interwal._16), new Localization(52.232222, 21.008333));
-
-        Event testEvent33 = new Event("testEvent33", "testEvent33 for testing purposes", getDateByVariables(2016, 12, 15),
-                new TimeSlot(Interwal._18, Interwal._20), new Localization(52.232222, 21.008333));
+    private static List<Event> testCase3() {
+        return Arrays.asList(
+                new Event("testEvent31", "testEvent31 for testing purposes", getDateByVariables(2016, 12, 15), new TimeSlot(Interwal._8, Interwal._10), new Localization(52.232222, 21.008333)),
+                new Event("testEvent32", "testEvent32 for testing purposes", getDateByVariables(2016, 12, 15), new TimeSlot(Interwal._14, Interwal._16), new Localization(52.232222, 21.008333)),
+                new Event("testEvent33", "testEvent33 for testing purposes", getDateByVariables(2016, 12, 15), new TimeSlot(Interwal._18, Interwal._20), new Localization(52.232222, 21.008333))
+        );
     }
 }
