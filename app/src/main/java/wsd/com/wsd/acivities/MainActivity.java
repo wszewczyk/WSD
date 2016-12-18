@@ -33,6 +33,7 @@ import wsd.com.wsd.adapters.CustomAdapter;
 import wsd.com.wsd.adapters.DrawerItemCustomAdapter;
 import wsd.com.wsd.fragments.ConnectFragment;
 import wsd.com.wsd.fragments.DbEventsFragment;
+import wsd.com.wsd.fragments.EventListFragment;
 import wsd.com.wsd.view.models.DataModel;
 import wsd.com.wsd.view.models.Model;
 
@@ -61,11 +62,12 @@ public class MainActivity extends AppCompatActivity {
 
         setupToolbar();
 
-        DataModel[] drawerItem = new DataModel[3];
+        DataModel[] drawerItem = new DataModel[4];
 
-        drawerItem[0] = new DataModel(R.drawable.ic_launcher, "Connect");
-        drawerItem[1] = new DataModel(R.drawable.ic_launcher, "Calendar");
-        drawerItem[2] = new DataModel(R.drawable.ic_launcher, "Add event to db");
+        drawerItem[0] = new DataModel("Connect");
+        drawerItem[1] = new DataModel("Calendar");
+        drawerItem[2] = new DataModel("Add event");
+        drawerItem[3] = new DataModel("Events");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -122,7 +124,9 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 fragment = new DbEventsFragment();
                 break;
-
+            case 3:
+                fragment = new EventListFragment();
+                break;
             default:
                 break;
         }

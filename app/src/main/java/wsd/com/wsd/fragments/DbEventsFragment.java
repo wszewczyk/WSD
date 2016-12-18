@@ -82,7 +82,7 @@ public class DbEventsFragment extends Fragment {
                                 new DatePickerDialog.OnDateSetListener() {
                                     @Override
                                     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                        dateText.setText(year + "-" + monthOfYear + "-" + "-" + dayOfMonth);
+                                        dateText.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
                                         date = new Date(year, monthOfYear, dayOfMonth);
                                     }
                                 },

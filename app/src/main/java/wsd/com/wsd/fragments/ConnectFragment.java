@@ -68,7 +68,7 @@ public class ConnectFragment extends Fragment {
                                 new DatePickerDialog.OnDateSetListener() {
                                     @Override
                                     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                        date.setText(year + "-" + monthOfYear + "-" + "-" + dayOfMonth);
+                                        date.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
                                     }
                                 },
                                 calendar.get(Calendar.YEAR),

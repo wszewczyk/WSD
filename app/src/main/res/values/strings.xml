@@ -10,6 +10,10 @@
     <string-array name="navigation_drawer_items_array">
         <item>Connect</item>
         <item>Calendar</item>
-        <item>Add event to db</item>
+        <item>Add event</item>
+        <item>Events</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
