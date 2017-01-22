@@ -1,6 +1,7 @@
 package wsd.com.wsd.comunication;
 
 
+import com.google.common.base.Ascii;
 import com.google.gson.Gson;
 
 import wsd.com.wsd.comunication.utils.JobType;
@@ -28,7 +29,7 @@ public class MessageFactory {
                 .performative(Performative.PROPOSE)
                 .senderId(sender)
                 .reciverId(revicer)
-                .content(gson.toJson(propolasEvent))
+                .event(propolasEvent)
                 .build();
     }
 
@@ -41,7 +42,8 @@ public class MessageFactory {
                 .performative(Performative.REJECT_PROPOSAL)
                 .senderId(agentMessage.getReciverId())
                 .reciverId(CORDINATOR_ID)
-                .content(agentMessage.getContent())
+                .event(agentMessage.getEvent())
+//                .content(agentMessage.getContent())
                 .userProperties(new UserProperties(UserPropertyKey.REFUSE_CAUSE, cause))
                 .build();
     }
@@ -55,7 +57,8 @@ public class MessageFactory {
                 .performative(Performative.PROPOSE)
                 .senderId(sender)
                 .reciverId(reciver)
-                .content(agentMessage.getContent())
+                .event(agentMessage.getEvent())
+//                .content(agentMessage.getContent())
                 .build();
     }
 
@@ -68,7 +71,7 @@ public class MessageFactory {
                 .performative(Performative.INFORM)
                 .senderId(CORDINATOR_ID)
                 .reciverId(networkInfoDto.getSelfDeviceInfo().getDeviceId())
-                .content(DtoConverter.fromNetworkInfoDto(networkInfoDto))
+                .networkInfoDto(networkInfoDto)
                 .build();
     }
 
@@ -81,7 +84,8 @@ public class MessageFactory {
                 .performative(Performative.CONFIRM)
                 .senderId(CORDINATOR_ID)
                 .reciverId(reviver)
-                .content(DtoConverter.fromEvent(event))
+                .event(event)
+//                .content(DtoConverter.fromEvent(event))
                 .build();
     }
 
@@ -95,7 +99,8 @@ public class MessageFactory {
                 .performative(Performative.ACCEPT_PROPOSAL)
                 .senderId(sender)
                 .reciverId(CORDINATOR_ID)
-                .content(message.getContent())
+                .event(message.getEvent())
+//                .content(message.getContent())
                 .build();
     }
 }

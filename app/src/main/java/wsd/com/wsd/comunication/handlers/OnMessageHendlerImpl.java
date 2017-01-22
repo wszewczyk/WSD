@@ -2,12 +2,13 @@ package wsd.com.wsd.comunication.handlers;
 
 
 import wsd.com.wsd.comunication.AgentMessage;
+import wsd.com.wsd.hard.OnHardMessageHendler;
 import wsd.com.wsd.singletons.MessagesMemory;
 
 public class OnMessageHendlerImpl implements OnMessageHendler{
 
     private OnNetworkCreationHendler onNetworkCreationHendler =  new OnNetworkCreationHendler();
-    private OnHandshakingEventTermHandler onHandshakingEventTermHandler = new OnHandshakingEventTermHandler();
+    private OnHardMessageHendler onHardMessageHendler = new OnHardMessageHendler();
     private OnConfirmEventHandler confirmEventHandler = new OnConfirmEventHandler();
 
     MessagesMemory messagesMemory = MessagesMemory.getInstance();
@@ -22,14 +23,14 @@ public class OnMessageHendlerImpl implements OnMessageHendler{
                 onNetworkCreationHendler.handle(agentMessage);
                 break;
             case HANDSHAKING_EVENT_TERM:
-                onHandshakingEventTermHandler.handle(agentMessage);
+                onHardMessageHendler.handle(agentMessage);
                 break;
             case CONFIRM_EVENT:
                 confirmEventHandler.handle(agentMessage);
                 break;
         }
 
-        messagesMemory.addMessage(agentMessage);
+//        messagesMemory.addMessage(agentMessage);
     }
 
 

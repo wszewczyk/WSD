@@ -13,5 +13,5 @@ import lombok.ToString;
 public class UserDevice {
     private String name;
     private int deviceId;
-    private String deviceName;
+    private String address;
 }

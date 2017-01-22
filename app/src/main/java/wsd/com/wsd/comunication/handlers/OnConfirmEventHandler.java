@@ -1,6 +1,8 @@
 package wsd.com.wsd.comunication.handlers;
 
 
+import android.util.Log;
+
 import wsd.com.wsd.agents.BrokerAgent;
 import wsd.com.wsd.comunication.AgentMessage;
 import wsd.com.wsd.comunication.utils.Performative;
@@ -20,16 +22,18 @@ public class OnConfirmEventHandler implements OnMessageHendler{
         assert agentMessage.getPerformative()== Performative.CONFIRM;
 
 
-        int currConversationId = agentMessage.getConversationId();
-        int lastConversationId = lastMessage.getConversationId();
+//        int currConversationId = agentMessage.getConversationId();
+//        int lastConversationId = lastMessage.getConversationId();
+//
+//        if(currConversationId!=lastConversationId){
+//            throw new IllegalStateException(String.format("illegal converstation ID: %s, required: %s",currConversationId, lastConversationId));
+//        }
 
-        if(currConversationId!=lastConversationId){
-            throw new IllegalStateException(String.format("illegal converstation ID: %s, required: %s",currConversationId, lastConversationId));
-        }
+        Log.e("POTWIERDZENIE", "POTWIERDZENIE");
 
-        Event event = DtoConverter.toEvent(agentMessage.getContent());
-
-        brokerAgent.saveEvent(event);
+//        Event event = DtoConverter.toEvent(agentMessage.getContent());
+//
+//        brokerAgent.saveEvent(event);
 
     }
 }

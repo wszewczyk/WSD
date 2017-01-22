@@ -14,8 +14,6 @@ public class OnNetworkCreationHendler implements OnMessageHendler {
 
     @Override
     public void handle(AgentMessage agentMessage) {
-        String content = agentMessage.getContent();
-        NetworkInfoDto networkInfoDto = DtoConverter.toNetworkInfoDto(content);
-        deviceSingleton.updateInfo(networkInfoDto.getDevicesNetowrk(), networkInfoDto.getSelfDeviceInfo());
+        deviceSingleton.updateInfo(agentMessage.getNetworkInfoDto().getDevicesNetowrk(), agentMessage.getNetworkInfoDto().getSelfDeviceInfo());
     }
 }

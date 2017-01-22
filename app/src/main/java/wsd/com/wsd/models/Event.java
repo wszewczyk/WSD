@@ -6,6 +6,7 @@ import io.realm.annotations.Ignore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import wsd.com.wsd.comparators.DateComperator;
@@ -16,6 +17,8 @@ import wsd.com.wsd.comparators.DateComperator;
 @Builder
 @ToString
 public class Event {
+    @Getter
+    private int id;
     private String name;
     private String description;
     private Date date;
