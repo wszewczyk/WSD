@@ -2,13 +2,13 @@ package wsd.com.wsd.comunication.handlers;
 
 
 import wsd.com.wsd.comunication.AgentMessage;
-import wsd.com.wsd.hard.OnHardMessageHendler;
+import wsd.com.wsd.helpers.OnTestMessageHendler;
 import wsd.com.wsd.singletons.MessagesMemory;
 
 public class OnMessageHendlerImpl implements OnMessageHendler{
 
     private OnNetworkCreationHendler onNetworkCreationHendler =  new OnNetworkCreationHendler();
-    private OnHardMessageHendler onHardMessageHendler = new OnHardMessageHendler();
+    private OnTestMessageHendler onHardMessageHendler = new OnTestMessageHendler();
     private OnConfirmEventHandler confirmEventHandler = new OnConfirmEventHandler();
 
     MessagesMemory messagesMemory = MessagesMemory.getInstance();

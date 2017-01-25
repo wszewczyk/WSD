@@ -20,7 +20,7 @@ public class CommunicationAgent implements AppAgentCommunicationAgentCommunicati
     }
 
     private CommunicationAgent() {
-        System.out.println("hehe wanczam");
+        System.out.println("IS RUNNING");
     }
 
     @Override

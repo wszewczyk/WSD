@@ -1,4 +1,4 @@
-package wsd.com.wsd.hard;
+package wsd.com.wsd.helpers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +15,7 @@ import wsd.com.wsd.models.types.Interwal;
  * Created by tobia on 21.01.2017.
  */
 
-public class HardMemory {
+public class TestDatabase {
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 

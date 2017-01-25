@@ -1,14 +1,11 @@
 package wsd.com.wsd.acivities;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,18 +13,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,25 +25,20 @@ import android.support.v7.widget.Toolbar;
 
 
 import wsd.com.wsd.R;
-import wsd.com.wsd.adapters.CustomAdapter;
 import wsd.com.wsd.adapters.DrawerItemCustomAdapter;
-import wsd.com.wsd.agents.CommunicationAgent;
 import wsd.com.wsd.app.WSD;
-import wsd.com.wsd.comunication.AgentMessage;
 import wsd.com.wsd.comunication.BluetoothCommunicationService;
 import wsd.com.wsd.comunication.CommunicatParser;
 import wsd.com.wsd.comunication.MessageFactory;
 import wsd.com.wsd.dto.NetworkInfoDto;
 import wsd.com.wsd.fragments.ConnectFragment;
 import wsd.com.wsd.fragments.DbEventsFragment;
-import wsd.com.wsd.fragments.EventListFragment;
-import wsd.com.wsd.hard.HardMemory;
+import wsd.com.wsd.helpers.TestDatabase;
 import wsd.com.wsd.models.Event;
 import wsd.com.wsd.models.UserDevice;
 import wsd.com.wsd.singletons.DeviceSingleton;
 import wsd.com.wsd.singletons.EventSourceSingleton;
 import wsd.com.wsd.view.models.DataModel;
-import wsd.com.wsd.view.models.Model;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
     int index = 1;
 
+    //TODO: do testow
     UserDevice master = new UserDevice("master", 1, "C4:43:8F:92:69:9D");
     UserDevice device_one = new UserDevice("device_one", 2, "D0:51:62:5A:8E:49");
     UserDevice device_two = new UserDevice("device_two", 3, "98:D6:F7:B1:EC:9F");
@@ -108,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             }
                             case 2: {
-                                Log.e("HEHEHE", "TO JUZ KONIEC");
+                                Log.e("Koniec", "TO JUZ KONIEC");
                                 break;
                             }
                         }
@@ -201,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             case 3:
 //                fragment = new EventListFragment();
 
-                System.out.println("hehe wanczam");
+//                System.out.println("TEST");
 
                 final NetworkInfoDto deviceNetworkOne = new NetworkInfoDto(device_one, deviceList);
 
@@ -233,12 +218,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startAlgorithm() { // TODO: punkt 5 - algorytm
-        Log.e("Hehehe", "punkt 5 - algorytm");
 
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                String message = CommunicatParser.convertACLMessagoToJSON(MessageFactory.proposalEventMessage(1, 2, 1111, HardMemory.getMemoryByDeviceId(1).get(0)));
+                String message = CommunicatParser.convertACLMessagoToJSON(MessageFactory.proposalEventMessage(1, 2, 1111, TestDatabase.getMemoryByDeviceId(1).get(0)));
                 WSD.getBcs().sendMessage(device_one.getAddress(), message);
             }
         }, 1000);
